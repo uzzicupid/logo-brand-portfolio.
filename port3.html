@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Public Logo & Brand Design Portfolio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0; padding: 0; background: #f4f6f8; color: #333;
+  }
+  header {
+    background: #263238;
+    color: #fff;
+    padding: 1.8rem 2rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: 2rem;
+    letter-spacing: 1.5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+  }
+  main {
+    max-width: 1000px;
+    margin: 2rem auto 4rem;
+    padding: 0 1rem;
+  }
+  h2 {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    color: #263238;
+  }
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 1.6rem;
+  }
+  .card {
+    background: white;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+  }
+  .card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+  }
+  .card-content {
+    padding: 1rem 1.25rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .card-title {
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 0.6rem;
+    color: #263238;
+  }
+  .card-description {
+    font-weight: 400;
+    font-size: 1rem;
+    color: #555;
+    flex-grow: 1;
+    margin-bottom: 0.7rem;
+  }
+  .card-link a {
+    color: #263238;
+    text-decoration: underline;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .card-link a:hover {
+    color: #455a64;
+  }
+  footer {
+    background: #263238;
+    color: white;
+    text-align: center;
+    padding: 1rem 2rem;
+    font-size: 0.9rem;
+    box-shadow: 0 -3px 8px rgba(0,0,0,0.2);
+  }
+
+  #add-design-section {
+    max-width: 600px;
+    background: white;
+    margin: 3rem auto 5rem;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+  }
+  #add-design-section h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #263238;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  label {
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+    color: #263238;
+  }
+  input[type="text"], textarea {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    border: 1.8px solid #ccc;
+    transition: border-color 0.3s ease;
+  }
+  input[type="text"]:focus, textarea:focus {
+    outline: none;
+    border-color: #263238;
+  }
+  button {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    background: #263238;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background: #455a64;
+  }
+</style>
+</head>
+<body>
+
+<header>Public Logo & Brand Design Portfolio</header>
+
+<main>
+  <h2>Featured Designs</h2>
+  <div class="gallery" id="gallery" aria-live="polite" aria-label="Portfolio gallery">
+    <!-- Cards will be injected here -->
+  </div>
+
+  <section id="add-design-section">
+    <h2>Add Your Design</h2>
+    <form id="add-design-form">
+      <label for="design-title">Design Title:</label>
+      <input type="text" id="design-title" required placeholder="Logo or Brand Name" />
+      <label for="design-description">Description:</label>
+      <textarea id="design-description" rows="3" required placeholder="Short description"></textarea>
+      <label for="design-image-url">Image URL:</label>
+      <input type="text" id="design-image-url" required placeholder="https://example.com/image.png" />
+      <label for="design-link">Link URL:</label>
+      <input type="text" id="design-link" required placeholder="https://example.com/moreinfo" />
+      <button type="submit">Add Design</button>
+    </form>
+  </section>
+</main>
+
+<footer>&copy; 2024 Public Portfolio</footer>
+
+<script>
+  const gallery = document.getElementById('gallery');
+  const addDesignForm = document.getElementById('add-design-form');
+
+  function loadDesigns() {
+    const stored = localStorage.getItem('publicDesigns');
+    if (stored) {
+      try { return JSON.parse(stored); } catch { return []; }
+    }
+    return [];
+  }
+
+  function saveDesigns(designs) {
+    localStorage.setItem('publicDesigns', JSON.stringify(designs));
+  }
+
+  function createCard(design) {
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    const img = document.createElement('img');
+    img.src = design.imageUrl;
+    img.alt = design.title;
+
+    const content = document.createElement('div');
+    content.className = 'card-content';
+
+    const title = document.createElement('h3');
+    title.className = 'card-title';
+    title.textContent = design.title;
+
+    const desc = document.createElement('p');
+    desc.className = 'card-description';
+    desc.textContent = design.description;
+
+    const linkDiv = document.createElement('div');
+    linkDiv.className = 'card-link';
+
+    const link = document.createElement('a');
+    link.href = design.link;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = design.link;
+
+    linkDiv.appendChild(link);
+    content.appendChild(title);
+    content.appendChild(desc);
+    content.appendChild(linkDiv);
+
+    card.appendChild(img);
+    card.appendChild(content);
+
+    return card;
+  }
+
+  function renderGallery() {
+    gallery.innerHTML = '';
+    const designs = loadDesigns();
+    designs.forEach(design => {
+      gallery.appendChild(createCard(design));
+    });
+  }
+
+  addDesignForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const title = addDesignForm['design-title'].value.trim();
+    const description = addDesignForm['design-description'].value.trim();
+    const imageUrl = addDesignForm['design-image-url'].value.trim();
+    const link = addDesignForm['design-link'].value.trim();
+
+    if (title && description && imageUrl && link) {
+      const designs = loadDesigns();
+      designs.unshift({ title, description, imageUrl, link });
+      saveDesigns(designs);
+      renderGallery();
+      addDesignForm.reset();
+      alert('Thank you! Your design has been added.');
+    } else {
+      alert('Please fill in all fields.');
+    }
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    renderGallery();
+  });
+</script>
+
+</body>
+</html>
+
